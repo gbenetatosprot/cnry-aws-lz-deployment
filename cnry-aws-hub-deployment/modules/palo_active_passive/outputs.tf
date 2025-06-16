@@ -44,10 +44,10 @@ output "ec2-2-mgmt-ip-pub" {
 
 output "ec2-1-name" {
   description = "Name of Firewall A"
-  value       = join("", [var.coid, "-AWS", var.location_short, "pa00-a"])
+  value       = join("", [var.coid, "-aws", var.location_short, "pa00-a"])
 }
 
 output "ec2-2-name" {
   description = "Name of Firewall B"
-  value       = join("", [var.coid, "-AWS", var.location_short, "pa00-b"])
+  value       = join("", [var.coid, "-aws", var.location_short, "pa00-b"])
 }

@@ -33,7 +33,7 @@ resource "aws_instance" "vm1" {
   monitoring                                = false
   tags = {
 
-    Name                                    = join ("", [var.coid, "-AWS", var.location_short, "pa00-a"])
+    Name                                    = join ("", [var.coid, "-aws", var.location_short, "pa00-a"])
     protera_type                            = "network appliance"
     protera_coid                            = var.coid
     protera_apid                            = "PA"
@@ -68,7 +68,7 @@ resource "aws_instance" "vm2" {
   source_dest_check                         = false
   tags = {
 
-    Name                                    = join ("", [var.coid, "-AWS", var.location_short, "pa00-b"])
+    Name                                    = join ("", [var.coid, "-aws", var.location_short, "pa00-b"])
     protera_type                            = "network appliance"
     protera_coid                            = var.coid
     protera_apid                            = "PA"
