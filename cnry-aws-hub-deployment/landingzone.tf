@@ -10,14 +10,14 @@ module "palo-alto" {
   location_short                    = local.location_short
   instance_type                     = local.instance_type
 
-  #Subnet creation form VPC CIDR - Option 5 means /28 subnets
+  #Subnet creation form VPC CIDR - Option 5 means /28 subnets if VPC is /23 AND option 4 means /28 if VPC is /24
 
   hub_address_space                 = local.hub_address_space
-  mgmt_space_prefix                 = [cidrsubnet(local.hub_address_space[0], 5, 0)]
-  public_space_prefix               = [cidrsubnet(local.hub_address_space[0], 5, 8)]
-  private_space_prefix              = [cidrsubnet(local.hub_address_space[0], 5, 1)]
-  ha2_space_prefix                  = [cidrsubnet(local.hub_address_space[0], 5, 2)]
-  tgw_space_prefix                  = [cidrsubnet(local.hub_address_space[0], 5, 3)]
+  mgmt_space_prefix                 = [cidrsubnet(local.hub_address_space[0], 4, 0)]
+  public_space_prefix               = [cidrsubnet(local.hub_address_space[0], 4, 8)]
+  private_space_prefix              = [cidrsubnet(local.hub_address_space[0], 4, 1)]
+  ha2_space_prefix                  = [cidrsubnet(local.hub_address_space[0], 4, 2)]
+  tgw_space_prefix                  = [cidrsubnet(local.hub_address_space[0], 4, 3)]
   aws_region                        = local.aws_region
   aws_availability_zone             = local.aws_availability_zone
 
