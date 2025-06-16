@@ -32,7 +32,7 @@ Firewall A:
   - Public IP : ${module.palo-alto.ec2-1-mgmt-ip-pub}
 
 Firewall B:
-  - Name: ${module.palo_alto.ec2-2-name}
+  - Name: ${module.palo-alto.ec2-2-name}
   - Private IP: ${module.palo-alto.ec2-2-mgmt-ip-priv}
   - Public IP : ${module.palo-alto.ec2-2-mgmt-ip-pub}
 EOT
