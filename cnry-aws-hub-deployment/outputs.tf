@@ -12,6 +12,11 @@ output "transit_gateway_shared_arn" {
   value       = module.palo-alto.transit_gateway_id
 }
 
+output "shares_ram_shared_arn" {
+  description = "RAM shared ARN"
+  value       = aws_ram_resource_share.tgw_share.arn
+}
+
 #----------------------------------------------------------------------------------------------------------------------
 # Main Outputs - VM-Series
 #----------------------------------------------------------------------------------------------------------------------
