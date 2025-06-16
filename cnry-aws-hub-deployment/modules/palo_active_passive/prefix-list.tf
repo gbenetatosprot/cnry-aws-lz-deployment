@@ -14,7 +14,7 @@ resource "aws_ec2_managed_prefix_list" "ha-interfaces" {
     cidr                                    = join("", [cidrhost(var.hub_address_space[0], 37), "/32"])
   }
 
-  entry {A
+  entry {
     cidr                                    = join("", [cidrhost(var.hub_address_space[0], 4), "/32"])
   }
 
