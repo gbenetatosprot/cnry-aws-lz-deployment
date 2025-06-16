@@ -3,7 +3,7 @@
 #----------------------------------------------------------------------------------------------------------------------
 
 module "palo-alto" {
-  source = "./modules/palo-active-passive"
+  source = "./modules/palo_active_passive"
 
   coid                              = local.coid
   environment                       = local.environment
