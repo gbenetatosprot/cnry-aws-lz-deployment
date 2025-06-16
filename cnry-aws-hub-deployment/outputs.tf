@@ -27,13 +27,13 @@ EOT
 output "vm_info_summary" {
   value = <<EOT
 Firewall A:
-  - Name: ${module.palo_alto.ec2-1-name}
-  - Private IP: ${module.palo_alto.ec2-1-mgmt-ip-priv}
-  - Public IP : ${module.palo_alto.ec2-1-mgmt-ip-pub}
+  - Name: ${module.palo-alto.ec2-1-name}
+  - Private IP: ${module.palo-alto.ec2-1-mgmt-ip-priv}
+  - Public IP : ${module.palo-alto.ec2-1-mgmt-ip-pub}
 
 Firewall B:
   - Name: ${module.palo_alto.ec2-2-name}
-  - Private IP: ${module.palo_alto.ec2-2-mgmt-ip-priv}
-  - Public IP : ${module.palo_alto.ec2-2-mgmt-ip-pub}
+  - Private IP: ${module.palo-alto.ec2-2-mgmt-ip-priv}
+  - Public IP : ${module.palo-alto.ec2-2-mgmt-ip-pub}
 EOT
 }

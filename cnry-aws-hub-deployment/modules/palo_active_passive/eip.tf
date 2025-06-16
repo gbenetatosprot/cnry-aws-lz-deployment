@@ -3,7 +3,7 @@
 #----------------------------------------------------------------------------------------------------------------------
 
 resource "aws_eip" "mng1" {
-  vpc                                       = true
+  domain                                    = "vpc"
   tags = {
     Name                                    = join("", [var.coid, "-", var.aws_region, "-management-eip-1"])
   }
@@ -13,7 +13,7 @@ resource "aws_eip" "mng1" {
 }
 
 resource "aws_eip" "mng2" {
-  vpc                                       = true
+  domain                                    = "vpc"
   tags = {
     Name                                    = join("", [var.coid, "-", var.aws_region, "-management-eip-2"])
   }
@@ -23,7 +23,7 @@ resource "aws_eip" "mng2" {
 }
 
 resource "aws_eip" "pub1" {
-  vpc                                       = true
+  domain                                    = "vpc"
   tags = {
     Name                                    = join("", [var.coid, "-", var.aws_region, "-public-eip"])
   }
