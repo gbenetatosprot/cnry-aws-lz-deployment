@@ -35,22 +35,22 @@ data "aws_ec2_transit_gateway" "shared2" {
 #Set routes
 
 resource "aws_route" "pubrr" {
-  route_table_id            = data.aws_route_table.public_rt_data
+  route_table_id            = data.aws_route_table.public_rt_data.id
   destination_cidr_block    = "0.0.0.0/0"
-  transit_gateway_id        = data.aws_ec2_transit_gateway.shared2
+  transit_gateway_id        = data.aws_ec2_transit_gateway.shared2.id
 
 }
 
 resource "aws_route" "pivrr" {
-  route_table_id            = data.aws_route_table.private_rt_data
+  route_table_id            = data.aws_route_table.private_rt_data.id
   destination_cidr_block    = "0.0.0.0/0"
-  transit_gateway_id        = data.aws_ec2_transit_gateway.shared2
+  transit_gateway_id        = data.aws_ec2_transit_gateway.shared2.id
 
 }
 
 resource "aws_route" "stgrr" {
-  route_table_id            = data.aws_route_table.stage_rt_data
+  route_table_id            = data.aws_route_table.stage_rt_data.id
   destination_cidr_block    = "0.0.0.0/0"
-  transit_gateway_id        = data.aws_ec2_transit_gateway.shared2
+  transit_gateway_id        = data.aws_ec2_transit_gateway.shared2.id
 
 }
