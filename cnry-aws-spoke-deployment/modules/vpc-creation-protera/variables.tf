@@ -9,6 +9,19 @@ variable "create_vpc" {
   default     = true
 }
 
+variable "create_accepter" {
+  description = "Controls if VPC should be created (it affects almost all resources)"
+  type        = bool
+  default     = false
+}
+
+variable "attachment_creation" {
+  description = "Controls if VPC should be created (it affects almost all resources)"
+  type        = bool
+  default     = false
+}
+
+
 variable "attachment_creation" {
   description = "Controls if VPC should be created (it affects almost all resources)"
   type        = bool

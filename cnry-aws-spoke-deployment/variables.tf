@@ -15,3 +15,11 @@ variable "ram_share_arn" {
 variable "region" {
   type = string
 }
+
+variable "create_accepter" {
+  type = bool
+}
+
+variable "attachment_creation" {
+  type = bool
+}

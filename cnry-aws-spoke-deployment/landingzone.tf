@@ -37,7 +37,8 @@ module "vpc1" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  tgw_share = true
+  create_accepter = true
+  attachment_creation = true
 
   ram_share_arn = data.terraform_remote_state.ram_producer.outputs.shares_ram_shared_arn
 
