@@ -44,5 +44,4 @@ module "vpc1" {
 
   create_staging_subnet_route_table = true
 
-  attachment_creation = true
 }
