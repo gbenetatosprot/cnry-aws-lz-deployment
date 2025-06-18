@@ -22,7 +22,7 @@ module "vpc1" {
 
   name            = "bene-vpc-1"
   cidr            = "10.160.10.0/23"
-  azs             = ["eu-west-3a", "eu-west-3b"]
+  azs             = ["eu-east-1a", "eu-east-1b"]
   private_subnets = ["10.160.10.0/25", "10.160.11.0/25"]
   public_subnets  = ["10.160.10.128/26", "10.160.11.128/26"]
   staging_subnets = ["10.160.10.192/27"]
