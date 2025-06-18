@@ -1,17 +1,17 @@
 ################################################################################
-# Get the Shared ARN of the TGW
+# Get the Shared ARN of the TGW - Enable if there is a TGW share from hub
 ################################################################################
 
-data "terraform_remote_state" "ram_producer" {
-  backend = "remote"
+# data "terraform_remote_state" "ram_producer" {
+#   backend = "remote"
 
-  config = {
-    organization = "gbenetatos_Org"
-    workspaces = {
-      name = "prot-cnry-aws-hub-deployment"
-    }
-  }
-}
+#   config = {
+#     organization = "gbenetatos_Org"
+#     workspaces = {
+#       name = "prot-cnry-aws-hub-deployment"
+#     }
+#   }
+# }
 
 ################################################################################
 # VPC Creation - SPOKE
@@ -29,19 +29,23 @@ module "vpc1" {
 
   private_subnet_names = ["Private-AZ1", "Private-AZ2"]
   public_subnet_names = ["Public-AZ1", "Public-AZ2"]
-  staging_subnet_names = ["Staging-Subnet-AZ1-PRV"]
+#   staging_subnet_names = ["Staging-Subnet-AZ1-PRV"]
 
-  enable_nat_gateway = false
+  enable_nat_gateway = true
 
 
   enable_dns_hostnames = true
   enable_dns_support   = true
 
-  create_accepter = true
-  attachment_creation = true
+  create_accepter = false
+  attachment_creation = false
 
-  ram_share_arn = data.terraform_remote_state.ram_producer.outputs.shares_ram_shared_arn
+  create_igw = true
+  public_default_route = true
 
-  create_staging_subnet_route_table = true
+
+#   ram_share_arn = data.terraform_remote_state.ram_producer.outputs.shares_ram_shared_arn
+
+#   create_staging_subnet_route_table = true
 
 }
