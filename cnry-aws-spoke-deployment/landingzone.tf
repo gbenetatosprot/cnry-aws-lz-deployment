@@ -47,6 +47,4 @@ module "vpc1" {
 #   ram_share_arn = data.terraform_remote_state.ram_producer.outputs.shares_ram_shared_arn
 
 #   create_staging_subnet_route_table = true
-   create_staging_subnets = false
-
 }

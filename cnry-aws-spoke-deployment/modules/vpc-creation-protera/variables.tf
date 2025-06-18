@@ -388,6 +388,12 @@ variable "create_staging_subnet_route_table" {
   default     = false
 }
 
+variable "create_staging_subnet" {
+  description = "Controls if separate route table for database should be created"
+  type        = bool
+  default     = false
+}
+
 variable "create_staging_internet_gateway_route" {
   description = "Controls if an internet gateway route for public database access should be created"
   type        = bool
