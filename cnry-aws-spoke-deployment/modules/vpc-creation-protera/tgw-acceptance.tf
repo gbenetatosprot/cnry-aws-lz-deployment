@@ -11,17 +11,17 @@ resource "aws_ram_resource_share_accepter" "receiver_accept" {
 # Get Shared TGW ID
 ################################################################################
 
-data "aws_ec2_transit_gateway" "shared" {
-  filter {
-    name   = "state"
-    values = ["available"]
-  }
-  depends_on = [aws_ram_resource_share_accepter.receiver_accept]
-}
+# data "aws_ec2_transit_gateway" "shared" {
+#   filter {
+#     name   = "state"
+#     values = ["available"]
+#   }
+#   depends_on = [aws_ram_resource_share_accepter.receiver_accept]
+# }
 
-locals {
-  tgw_id_available = can(data.aws_ec2_transit_gateway.shared.id)
-}
+# locals {
+#   tgw_id_available = can(data.aws_ec2_transit_gateway.shared.id)
+# }
 
 ################################################################################
 # Create TGW Attachment
