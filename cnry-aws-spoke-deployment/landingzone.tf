@@ -6,7 +6,7 @@ data "terraform_remote_state" "ram_producer" {
   backend = "remote"
 
   config = {
-    organization = "protera"
+    organization = "gbenetatos_Org"
     workspaces = {
       name = "aws-vpc-module-single-lz-west"
     }
