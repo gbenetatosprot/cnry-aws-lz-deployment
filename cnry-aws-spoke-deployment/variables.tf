@@ -8,18 +8,6 @@ variable "aws_secret_access_key" {
   default = ""
 }
 
-variable "ram_share_arn" {
-  type = string
-}
-
 variable "region" {
   type = string
-}
-
-variable "create_accepter" {
-  type = bool
-}
-
-variable "attachment_creation" {
-  type = bool
 }
