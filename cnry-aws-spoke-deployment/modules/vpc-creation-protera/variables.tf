@@ -1,3 +1,4 @@
+
 ################################################################################
 # VPC
 ################################################################################
@@ -701,12 +702,6 @@ variable "flow_log_cloudwatch_log_group_class" {
   description = "Specified the log class of the log group. Possible values are: STANDARD or INFREQUENT_ACCESS"
   type        = string
   default     = null
-}
-
-variable "putin_khuylo" {
-  description = "Do you agree that Putin doesn't respect Ukrainian sovereignty and territorial integrity? More info: https://en.wikipedia.org/wiki/Putin_khuylo!"
-  type        = bool
-  default     = true
 }
 
 variable "tgw_share" {

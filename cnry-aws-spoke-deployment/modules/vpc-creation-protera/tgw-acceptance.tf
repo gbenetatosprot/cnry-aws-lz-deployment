@@ -1,35 +1,31 @@
-module "tgw_peer" {
-  count = (
-    var.tgw_share &&
-    var.ram_share_arn != "" &&
-    length(var.ram_principals) > 0
-  ) ? 1 : 0
+################################################################################
+# Accept TGW from ARM
+################################################################################
 
-  source = "terraform-aws-modules/transit-gateway/aws"
-
-  name            = "shared-tgw"
-  description     = "My TGW shared with several other AWS accounts"
-
-  create_tgw             = false
-  share_tgw              = true
-  ram_resource_share_arn = var.ram_share_arn
-  enable_auto_accept_shared_attachments = true
-  ram_allow_external_principals         = true
-  ram_principals                        = var.ram_principals
-
+resource "aws_ram_resource_share_accepter" "receiver_accept" {
+  count     = var.create_accepter ? 1 : 0
+  share_arn = var.ram_share_arn
 }
+
+################################################################################
+# Get Shared TGW ID
+################################################################################
 
 data "aws_ec2_transit_gateway" "shared" {
   filter {
     name   = "state"
     values = ["available"]
   }
-  depends_on = [aws_route_table_association.private]
+  depends_on = [aws_ram_resource_share_accepter.receiver_accept]
 }
 
 locals {
   tgw_id_available = can(data.aws_ec2_transit_gateway.shared.id)
 }
+
+################################################################################
+# Create TGW Attachment
+################################################################################
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw-spoke" {
   count = var.attachment_creation ? 1 : 0
