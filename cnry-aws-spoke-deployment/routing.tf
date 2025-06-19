@@ -1,56 +1,13 @@
-# ################################################################################
-# # Routing for VPC - Run AFTER Attachment is accepted from hub
-# ################################################################################
+################################################################################
+# Routing for VPC - Run AFTER Attachment is accepted from hub
+################################################################################
 
-# #Get RT ID
+# Route to TGW for public route table (if it exists)
+resource "aws_route" "pubrr" {
+  count = module.vpc_module.public_route_table_ids != [] ? 1 : 0
 
-# data "aws_route_table" "public_rt_data" {
-#   filter {
-#     name   = "tag:Name"
-#     values = ["bene-vpc-1-public"]
-# #   }
-# }
+  route_table_id         = module.vpc_module.public_route_table_ids[0]
+  destination_cidr_block = "0.0.0.0/0"
+  transit_gateway_id     = var.transit_gateway_id
+}
 
-# data "aws_route_table" "private_rt_data" {
-#   filter {
-#     name   = "tag:Name"
-#     values = ["Private-Subnet-Rt"]
-#   }
-# }
-
-# data "aws_route_table" "stage_rt_data" {
-#   filter {
-#     name   = "tag:Name"
-#     values = ["bene-vpc-1-staging"]
-#   }
-# }
-
-# data "aws_ec2_transit_gateway" "shared2" {
-#   filter {
-#     name   = "state"
-#     values = ["available"]
-#   }
-# }
-
-# #Set routes
-
-# resource "aws_route" "pubrr" {
-#   route_table_id            = data.aws_route_table.public_rt_data.id
-#   destination_cidr_block    = "0.0.0.0/0"
-#   transit_gateway_id        = data.aws_ec2_transit_gateway.shared2.id
-
-# }
-
-# resource "aws_route" "pivrr" {
-#   route_table_id            = data.aws_route_table.private_rt_data.id
-#   destination_cidr_block    = "0.0.0.0/0"
-#   transit_gateway_id        = data.aws_ec2_transit_gateway.shared2.id
-
-# }
-
-# resource "aws_route" "stgrr" {
-#   route_table_id            = data.aws_route_table.stage_rt_data.id
-#   destination_cidr_block    = "0.0.0.0/0"
-#   transit_gateway_id        = data.aws_ec2_transit_gateway.shared2.id
-
-# }

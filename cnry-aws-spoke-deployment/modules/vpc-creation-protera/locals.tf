@@ -1,3 +1,7 @@
+################################################################################
+# Locals for subnet and VPC creation
+################################################################################
+
 locals {
   len_public_subnets      = max(length(var.public_subnets))
   len_private_subnets     = max(length(var.private_subnets))

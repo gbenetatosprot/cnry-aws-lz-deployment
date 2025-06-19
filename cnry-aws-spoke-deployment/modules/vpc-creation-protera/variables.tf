@@ -1,6 +1,6 @@
 
 ################################################################################
-# VPC
+# VPC Creation Variables
 ################################################################################
 
 variable "create_vpc" {
@@ -8,21 +8,6 @@ variable "create_vpc" {
   type        = bool
   default     = true
 }
-
-variable "create_accepter" {
-  description = "Controls if VPC should be created (it affects almost all resources)"
-  type        = bool
-  default     = false
-}
-
-variable "attachment_creation" {
-  description = "Controls if VPC should be created (it affects almost all resources)"
-  type        = bool
-  default     = false
-}
-
-
-
 
 variable "name" {
   description = "Name to be used on all the resources as identifier"
@@ -41,7 +26,6 @@ variable "secondary_cidr_blocks" {
   type        = list(string)
   default     = []
 }
-
 
 variable "azs" {
   description = "A list of availability zones names or ids in the region"
@@ -359,7 +343,7 @@ variable "staging_subnet_enable_resource_name_dns_a_record_on_launch" {
 }
 
 variable "default_route_staging" {
-  description = "Indicates whether to respond to DNS queries for instance hostnames with DNS A records. Default: `false`"
+  description = "Indicates if staging subnets will need to have a default route`"
   type        = bool
   default     = false
 }
@@ -389,7 +373,7 @@ variable "create_staging_subnet_route_table" {
 }
 
 variable "create_staging_subnet" {
-  description = "Controls if separate route table for database should be created"
+  description = "Controls if staging subnets are needed"
   type        = bool
   default     = false
 }
@@ -477,13 +461,13 @@ variable "staging_acl_tags" {
 variable "create_igw" {
   description = "Controls if an Internet Gateway is created for public subnets and the related routes that connect them"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "create_egress_only_igw" {
   description = "Controls if an Egress Only Internet Gateway is created and its related routes"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "igw_tags" {
@@ -717,6 +701,25 @@ variable "flow_log_cloudwatch_log_group_class" {
   description = "Specified the log class of the log group. Possible values are: STANDARD or INFREQUENT_ACCESS"
   type        = string
   default     = null
+}
+
+
+
+################################################################################
+# TGW - Variables
+################################################################################
+
+
+variable "create_accepter" {
+  description = "Controls if an arn shared tgw will be accepted"
+  type        = bool
+  default     = false
+}
+
+variable "attachment_creation" {
+  description = "controls if a TGW VPC attachment will be created"
+  type        = bool
+  default     = false
 }
 
 variable "tgw_share" {

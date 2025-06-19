@@ -1,5 +1,5 @@
 ################################################################################
-# Accept TGW from ARM
+# Accept TGW from RAM
 ################################################################################
 
 resource "aws_ram_resource_share_accepter" "receiver_accept" {
@@ -8,32 +8,43 @@ resource "aws_ram_resource_share_accepter" "receiver_accept" {
 }
 
 ################################################################################
-# Get Shared TGW ID
+# Workaround: Trigger after RAM share is accepted
 ################################################################################
 
-# data "aws_ec2_transit_gateway" "shared" {
-#   filter {
-#     name   = "state"
-#     values = ["available"]
-#   }
-#   depends_on = [aws_ram_resource_share_accepter.receiver_accept]
-# }
+resource "null_resource" "tgw_ready" {
+  count = var.create_accepter ? 1 : 0
 
-# locals {
-#   tgw_id_available = can(data.aws_ec2_transit_gateway.shared.id)
-# }
+  triggers = {
+    accepted = aws_ram_resource_share_accepter.receiver_accept[0].id
+  }
+}
 
 ################################################################################
-# Create TGW Attachment
+# Get Shared TGW ID (only if attachment should be created and accepter is enabled)
+################################################################################
+
+data "aws_ec2_transit_gateway" "shared" {
+  count = var.create_accepter && var.attachment_creation ? 1 : 0
+
+  filter {
+    name   = "state"
+    values = ["available"]
+  }
+
+  depends_on = [null_resource.tgw_ready]
+}
+
+################################################################################
+# Create TGW Attachment (only if enabled)
 ################################################################################
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw-spoke" {
-  count = var.attachment_creation ? 1 : 0
+  count = var.attachment_creation && var.create_accepter ? 1 : 0
 
-  subnet_ids      = aws_subnet.private[*].id
-  vpc_id          = aws_vpc.this[0].id
+  subnet_ids = aws_subnet.private[*].id
+  vpc_id     = aws_vpc.this[0].id
 
-  transit_gateway_id = data.aws_ec2_transit_gateway.shared.id
+  transit_gateway_id = data.aws_ec2_transit_gateway.shared[0].id
 
   transit_gateway_default_route_table_association = false
   transit_gateway_default_route_table_propagation = false
