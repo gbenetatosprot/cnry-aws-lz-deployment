@@ -79,9 +79,9 @@ module "vpc1-route" {
   staging-subnets = module.vpc1.staging_subnet_ids
 
 #RT Info
-  public-rt = module.vpc1.public_route_table_ids
-  private-rt = module.vpc1.private_route_table_id
-  staging-rt = module.vpc1.staging_route_table_id
+  public-rt  = module.vpc1.public_route_table_ids
+  private-rt = module.vpc1.private_route_table_id != null ? [module.vpc1.private_route_table_id] : []
+  staging-rt = module.vpc1.staging_route_table_id != null ? [module.vpc1.staging_route_table_id] : []
 
   default_tgw_route   = true
   default_staging_tgw = true
