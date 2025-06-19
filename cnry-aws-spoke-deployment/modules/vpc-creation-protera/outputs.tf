@@ -57,3 +57,10 @@ output "eip_allocation_ids" {
   description = "List of NAT EIP allocation IDs"
   value       = (local.create_vpc && var.enable_nat_gateway && !var.reuse_nat_ips) ? aws_eip.nat[*].id : []
 }
+
+output "transit_gateway_id" {
+  description = "The ID of the shared Transit Gateway"
+  value = var.create_accepter && var.attachment_creation && length(data.aws_ec2_transit_gateway.shared) > 0 ?
+    data.aws_ec2_transit_gateway.shared[0].id :
+    null
+}

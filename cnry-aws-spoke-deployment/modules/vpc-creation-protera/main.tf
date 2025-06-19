@@ -637,14 +637,14 @@ resource "aws_route" "private_nat_gateway" {
 ################################################################################
 
 resource "aws_vpc_endpoint" "s3" {
-  vpc_id       = local.vpc_id
-  service_name = "com.amazonaws.${var.region}.s3"
-  vpc_endpoint_type = "Gateway"
-  route_table_ids = concat(
+  vpc_id                    = local.vpc_id
+  service_name              = "com.amazonaws.${var.region}.s3"
+  vpc_endpoint_type         = "Gateway"
+  route_table_ids           = concat(
     aws_route_table.public[*].id,
     aws_route_table.private[*].id
   )
-  tags = {
+  tags                      = {
     Name = "S3 VPC Endpoint"
   }
 }

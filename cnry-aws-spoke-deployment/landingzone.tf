@@ -62,3 +62,31 @@ module "vpc1" {
 #S3 VPC Endpoints - Gateway
   s3_gw_endpoints = true
 }
+
+################################################################################
+# VPC Spoke - TGW Routing - Run Only when TGW Attachment is accepted and conf in HUB
+################################################################################
+
+module "vpc1-route" {
+  source  = "./modules/tgw-routing"
+
+#Basic Info
+  tgw_id = module.vpc-creation-protera.transit_gateway_id
+  vpc-id = module.vpc-creation-protera.vpc_id
+
+#Subnet Info
+  public-subnets = module.vpc-creation-protera.public_subnet_ids
+  private-subnets = module.vpc-creation-protera.private_subnet_ids
+  staging-subnets = module.vpc-creation-protera.staging_subnet_ids
+
+#RT Info
+  public-rt = module.vpc-creation-protera.public_route_table_ids
+  private-rt = module.vpc-creation-protera.private_route_table_id
+  staging-rt = module.vpc-creation-protera.staging_route_table_id
+
+  default_tgw_route   = true
+  default_staging_tgw = true
+
+  depends_on = [module.vpc1]
+
+}

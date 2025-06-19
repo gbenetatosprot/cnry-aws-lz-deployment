@@ -10,4 +10,5 @@ variable "aws_secret_access_key" {
 
 variable "region" {
   type = string
+  default = "us-east-1"
 }
