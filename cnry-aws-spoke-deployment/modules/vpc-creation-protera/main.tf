@@ -637,7 +637,7 @@ resource "aws_route" "private_nat_gateway" {
 ################################################################################
 
 resource "aws_vpc_endpoint" "s3" {
-  vpc_id       = aws_vpc.main.id
+  vpc_id       = local.vpc_id
   service_name = "com.amazonaws.${var.region}.s3"
   vpc_endpoint_type = "Gateway"
   route_table_ids = concat(
