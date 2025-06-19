@@ -3,6 +3,13 @@
 # VPC Creation Variables
 ################################################################################
 
+variable "region" {
+  description = "region"
+  type        = string
+  default     = ""
+}
+
+
 variable "create_vpc" {
   description = "Controls if VPC should be created (it affects almost all resources)"
   type        = bool
@@ -744,4 +751,14 @@ variable "tgw_arn" {
   description = "The TGW ARN to associate with the RAM share"
   type        = string
   default     = ""
+}
+
+################################################################################
+# S3 Endpoints Variables
+################################################################################
+
+variable "s3_gw_endpoints" {
+  description = "Creation of s3 gateway endpoint"
+  type        = bool
+  default     = false
 }
