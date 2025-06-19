@@ -71,17 +71,17 @@ module "vpc1-route" {
   source  = "./modules/tgw-routing"
 
 #Basic Info
-  tgw_id = module.vpc-creation-protera.transit_gateway_id
+  tgw_id = module.vpc1.transit_gateway_id
 
 #Subnet Info
-  public-subnets = module.vpc-creation-protera.public_subnet_ids
-  private-subnets = module.vpc-creation-protera.private_subnet_ids
-  staging-subnets = module.vpc-creation-protera.staging_subnet_ids
+  public-subnets = module.vpc1.public_subnet_ids
+  private-subnets = module.vpc1.private_subnet_ids
+  staging-subnets = module.vpc1.staging_subnet_ids
 
 #RT Info
-  public-rt = module.vpc-creation-protera.public_route_table_ids
-  private-rt = module.vpc-creation-protera.private_route_table_id
-  staging-rt = module.vpc-creation-protera.staging_route_table_id
+  public-rt = module.vpc1.public_route_table_ids
+  private-rt = module.vpc1.private_route_table_id
+  staging-rt = module.vpc1.staging_route_table_id
 
   default_tgw_route   = true
   default_staging_tgw = true
