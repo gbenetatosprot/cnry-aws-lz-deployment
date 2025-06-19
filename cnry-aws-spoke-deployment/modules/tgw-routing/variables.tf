@@ -53,7 +53,3 @@ variable "default_staging_tgw" {
 variable "tgw_id" {
   type    = string
 }
-
-variable "vpc_id" {
-  type    = string
-}

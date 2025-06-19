@@ -72,7 +72,6 @@ module "vpc1-route" {
 
 #Basic Info
   tgw_id = module.vpc-creation-protera.transit_gateway_id
-  vpc-id = module.vpc-creation-protera.vpc_id
 
 #Subnet Info
   public-subnets = module.vpc-creation-protera.public_subnet_ids
