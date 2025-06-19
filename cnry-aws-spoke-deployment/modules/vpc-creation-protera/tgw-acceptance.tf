@@ -39,7 +39,7 @@ resource "null_resource" "tgw_ready" {
 ################################################################################
 
 data "aws_ec2_transit_gateway" "shared" {
-  count = var.create_accepter && var.attachment_creation ? 1 : 0
+  count = var.attachment_creation ? 1 : 0
 
   filter {
     name   = "state"
@@ -54,7 +54,7 @@ data "aws_ec2_transit_gateway" "shared" {
 ################################################################################
 
 resource "aws_ec2_transit_gateway_vpc_attachment" "tgw-spoke" {
-  count = var.attachment_creation && var.create_accepter ? 1 : 0
+  count = var.attachment_creation  ? 1 : 0
 
   subnet_ids = aws_subnet.private[*].id
   vpc_id     = aws_vpc.this[0].id
