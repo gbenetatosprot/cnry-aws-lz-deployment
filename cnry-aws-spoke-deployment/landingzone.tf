@@ -117,7 +117,7 @@ module "vpc1-route" {
   source  = "./modules/tgw-routing"
 
 #Basic Info
-  tgw_id = module.vpc1.transit_gateway_id
+  tgw_id = module.vpc1.transit_gateway_id != null ? module.vpc1.transit_gateway_id : ""
 
 #Subnet Info
   public-subnets = module.vpc1.public_subnet_ids
@@ -140,7 +140,7 @@ module "vpc2-route" {
   source  = "./modules/tgw-routing"
 
 #Basic Info
-  tgw_id = module.vpc2.transit_gateway_id
+  tgw_id =module.vpc2.transit_gateway_id != null ? module.vpc2.transit_gateway_id : ""
 
 #Subnet Info
   public-subnets = module.vpc2.public_subnet_ids

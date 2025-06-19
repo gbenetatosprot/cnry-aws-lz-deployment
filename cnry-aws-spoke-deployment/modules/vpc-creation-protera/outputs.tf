@@ -61,7 +61,7 @@ output "eip_allocation_ids" {
 output "transit_gateway_id" {
   description = "The ID of the shared Transit Gateway"
   value = (
-    var.create_accepter && var.attachment_creation && length(data.aws_ec2_transit_gateway.shared) > 0
+    var.attachment_creation && length(data.aws_ec2_transit_gateway.shared) > 0
       ? data.aws_ec2_transit_gateway.shared[0].id
       : null
   )
