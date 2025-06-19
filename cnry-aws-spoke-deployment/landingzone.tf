@@ -113,48 +113,48 @@ module "vpc2" {
 # VPC Spoke - TGW Routing - Run Only when TGW Attachment is accepted and conf in HUB
 ################################################################################
 
-# module "vpc1-route" {
-#   source  = "./modules/tgw-routing"
+module "vpc1-route" {
+  source  = "./modules/tgw-routing"
 
-# #Basic Info
-#   tgw_id = module.vpc1.transit_gateway_id
+#Basic Info
+  tgw_id = module.vpc1.transit_gateway_id
 
-# #Subnet Info
-#   public-subnets = module.vpc1.public_subnet_ids
-#   private-subnets = module.vpc1.private_subnet_ids
-#   staging-subnets = module.vpc1.staging_subnet_ids
+#Subnet Info
+  public-subnets = module.vpc1.public_subnet_ids
+  private-subnets = module.vpc1.private_subnet_ids
+  staging-subnets = module.vpc1.staging_subnet_ids
 
-# #RT Info
-#   public-rt  = module.vpc1.public_route_table_ids
-#   private-rt = module.vpc1.private_route_table_id != null ? [module.vpc1.private_route_table_id] : []
-#   staging-rt = module.vpc1.staging_route_table_id != null ? [module.vpc1.staging_route_table_id] : []
+#RT Info
+  public-rt  = module.vpc1.public_route_table_ids
+  private-rt = module.vpc1.private_route_table_id != null ? [module.vpc1.private_route_table_id] : []
+  staging-rt = module.vpc1.staging_route_table_id != null ? [module.vpc1.staging_route_table_id] : []
 
-#   default_tgw_route   = true
-#   default_staging_tgw = true
+  default_tgw_route   = true
+  default_staging_tgw = true
 
-#   depends_on = [module.vpc1]
+  depends_on = [module.vpc1]
 
-# }
+}
 
-# module "vpc2-route" {
-#   source  = "./modules/tgw-routing"
+module "vpc2-route" {
+  source  = "./modules/tgw-routing"
 
-# #Basic Info
-#   tgw_id = module.vpc2.transit_gateway_id
+#Basic Info
+  tgw_id = module.vpc2.transit_gateway_id
 
-# #Subnet Info
-#   public-subnets = module.vpc2.public_subnet_ids
-#   private-subnets = module.vpc2.private_subnet_ids
-#   staging-subnets = module.vpc2.staging_subnet_ids
+#Subnet Info
+  public-subnets = module.vpc2.public_subnet_ids
+  private-subnets = module.vpc2.private_subnet_ids
+  staging-subnets = module.vpc2.staging_subnet_ids
 
-# #RT Info
-#   public-rt  = module.vpc2.public_route_table_ids
-#   private-rt = module.vpc2.private_route_table_id != null ? [module.vpc2.private_route_table_id] : []
-#   staging-rt = module.vpc2.staging_route_table_id != null ? [module.vpc2.staging_route_table_id] : []
+#RT Info
+  public-rt  = module.vpc2.public_route_table_ids
+  private-rt = module.vpc2.private_route_table_id != null ? [module.vpc2.private_route_table_id] : []
+  staging-rt = module.vpc2.staging_route_table_id != null ? [module.vpc2.staging_route_table_id] : []
 
-#   default_tgw_route   = true
-#   default_staging_tgw = true
+  default_tgw_route   = true
+  default_staging_tgw = true
 
-#   depends_on = [module.vpc2]
+  depends_on = [module.vpc2]
 
-# }
+}
