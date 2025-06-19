@@ -99,7 +99,7 @@ module "vpc2" {
   enable_dns_support   = true
 
 #TGW for spoke accounts Configuration
-  create_accepter = true
+  create_accepter = false
   attachment_creation = true
   ram_share_arn = "arn:aws:ram:us-east-1:706210432878:resource-share/e4bbd805-d6c9-411d-bfe1-d6728b161ace" #Uncomment for TGW acceptance - In case of multiple TGW PROVIDE ARN manually
 
