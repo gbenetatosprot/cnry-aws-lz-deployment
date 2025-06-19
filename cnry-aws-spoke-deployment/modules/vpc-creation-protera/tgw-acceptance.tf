@@ -61,8 +61,8 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw-spoke" {
 
   transit_gateway_id = data.aws_ec2_transit_gateway.shared[0].id
 
-  transit_gateway_default_route_table_association = false
-  transit_gateway_default_route_table_propagation = false
+  transit_gateway_default_route_table_association = true
+  transit_gateway_default_route_table_propagation = true
   appliance_mode_support                          = "enable"
 
   tags = {
