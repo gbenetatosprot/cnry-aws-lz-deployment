@@ -35,8 +35,8 @@ module "vpc1" {
 #   create_staging_subnet_route_table = true #Uncomment if DRS/AMS is neede
 
 #NAT GW Configuration
-  enable_nat_gateway = false
-  single_nat_gateway = false
+  enable_nat_gateway = true
+  single_nat_gateway = true
 
 #IGW COnfiguration
   create_igw = true
@@ -49,5 +49,5 @@ module "vpc1" {
 #TGW for spoke accounts Configuration
   create_accepter = false
   attachment_creation = false
-#   ram_share_arn = data.terraform_remote_state.ram_producer.outputs.shares_ram_shared_arn #Uncomment for TGW acceptance
+#   ram_share_arn = data.terraform_remote_state.ram_producer.outputs.shares_ram_shared_arn #Uncomment for TGW acceptance - In case of multiple TGW PROVIDE ARN manually
 }
