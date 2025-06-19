@@ -33,10 +33,12 @@ module "vpc1" {
 
 
 #Staging Subnet Configuration
-  staging_subnets = ["10.160.10.192/27"] #Uncomment if DRS/AMS is needed
-  staging_subnet_names = ["Staging-Subnet-AZ1-PRV"] #Uncomment if DRS/AMS is needed
+  staging_subnets = ["10.160.10.192/27"]
+  staging_subnet_names = ["Staging-Subnet-AZ1-PRV"]
   create_staging_subnet_route_table = true
   create_staging_nat_gateway_route = true
+  default_route_staging = true
+  create_staging_internet_gateway_route = false
 
 #NAT GW Configuration
   enable_nat_gateway = true
