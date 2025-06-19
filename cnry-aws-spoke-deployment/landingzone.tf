@@ -36,17 +36,17 @@ module "vpc1" {
   staging_subnets = ["10.160.10.192/27"]
   staging_subnet_names = ["Staging-Subnet-AZ1-PRV"]
   create_staging_subnet_route_table = true
-  create_staging_nat_gateway_route = true
+  create_staging_nat_gateway_route = false
   default_route_staging = true
-  create_staging_internet_gateway_route = false
+  create_staging_internet_gateway_route = true
 
 #NAT GW Configuration
-  enable_nat_gateway = true
-  single_nat_gateway = true
+  enable_nat_gateway = false
+  single_nat_gateway = false
 
 #IGW COnfiguration
-  create_igw = true
-  public_default_route = true
+  create_igw = false
+  public_default_route = false
 
 #VPC DNS Configuration - Important for Peerings and Private Links (Private Endpoints)
   enable_dns_hostnames = true
