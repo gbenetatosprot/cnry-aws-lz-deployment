@@ -53,9 +53,9 @@ module "vpc1" {
   enable_dns_support   = true
 
 #TGW for spoke accounts Configuration
-  create_accepter = false
+  create_accepter = true
   attachment_creation = true
-  ram_share_arn = "arn:aws:ram:us-east-1:706210432878:resource-share/516c3c75-6dbe-4092-a2fd-3acfb1197244" #Uncomment for TGW acceptance - In case of multiple TGW PROVIDE ARN manually
+  ram_share_arn = "arn:aws:ram:us-east-1:706210432878:resource-share/e4bbd805-d6c9-411d-bfe1-d6728b161ace" #Uncomment for TGW acceptance - In case of multiple TGW PROVIDE ARN manually
 
 #   ram_share_arn = data.terraform_remote_state.ram_producer.outputs.shares_ram_shared_arn #Uncomment for TGW acceptance - In case of multiple TGW PROVIDE ARN manually
 
@@ -99,9 +99,9 @@ module "vpc2" {
   enable_dns_support   = true
 
 #TGW for spoke accounts Configuration
-  create_accepter = false
+  create_accepter = true
   attachment_creation = true
-  ram_share_arn = "arn:aws:ram:us-east-1:706210432878:resource-share/516c3c75-6dbe-4092-a2fd-3acfb1197244" #Uncomment for TGW acceptance - In case of multiple TGW PROVIDE ARN manually
+  ram_share_arn = "arn:aws:ram:us-east-1:706210432878:resource-share/e4bbd805-d6c9-411d-bfe1-d6728b161ace" #Uncomment for TGW acceptance - In case of multiple TGW PROVIDE ARN manually
 
 #   ram_share_arn = data.terraform_remote_state.ram_producer.outputs.shares_ram_shared_arn #Uncomment for TGW acceptance - In case of multiple TGW PROVIDE ARN manually
 
