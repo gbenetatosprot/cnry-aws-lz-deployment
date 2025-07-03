@@ -134,7 +134,7 @@ resource "aws_route" "public_internet_gateway" {
 
 #Creates a Public SG
 resource "aws_security_group" "public" {
-  name        = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "public-sg"]))
+  name        = lower(join("-", [var.coid, var.location_short, var.protera_env, var.protera_type, "public-sg"]))
   description = "Allow inbound RFC1918 and outbound all"
   vpc_id      = aws_vpc.this[0].id
 
@@ -171,7 +171,7 @@ resource "aws_security_group" "public" {
   }
 
   tags = {
-    Name = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "public-sg"]))
+    Name = lower(join("-", [var.coid, var.location_short, var.protera_env, var.protera_type, "public-sg"]))
   }
 }
 
@@ -187,7 +187,7 @@ resource "aws_network_acl" "public" {
   vpc_id     = local.vpc_id
   subnet_ids = aws_subnet.public[*].id
 
-  tags = { "Name" = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "public-nacl"])) }
+  tags = { "Name" = lower(join("-", [var.coid, var.location_short, var.protera_env, var.protera_type, "public-nacl"])) }
 }
 
 resource "aws_network_acl_rule" "public_inbound" {
@@ -257,7 +257,7 @@ resource "aws_route_table" "private" {
   vpc_id = local.vpc_id
 
   tags = {
-    Name = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "private-rt"]))
+    Name = lower(join("-", [var.coid, var.location_short, var.protera_env, var.protera_type, "private-rt"]))
   }
 }
 
@@ -273,7 +273,7 @@ resource "aws_route_table_association" "private" {
 #Creates an SG for Private Subnets
 
 resource "aws_security_group" "private" {
-  name        = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "private-sg"]))
+  name        = lower(join("-", [var.coid, var.location_short, var.protera_env, var.protera_type, "private-sg"]))
   description = "Allow inbound RFC1918 and outbound all"
   vpc_id      = aws_vpc.this[0].id
 
@@ -310,7 +310,7 @@ resource "aws_security_group" "private" {
   }
 
   tags = {
-    Name = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "private-sg"]))
+    Name = lower(join("-", [var.coid, var.location_short, var.protera_env, var.protera_type, "private-sg"]))
   }
 }
 
@@ -330,7 +330,7 @@ resource "aws_network_acl" "private" {
   vpc_id     = local.vpc_id
   subnet_ids = aws_subnet.private[*].id
 
-  tags = { "Name" = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "private-nacl"])) }
+  tags = { "Name" = lower(join("-", [var.coid, var.location_short, var.protera_env, var.protera_type, "private-nacl"])) }
 }
 
 resource "aws_network_acl_rule" "private_inbound" {
@@ -402,7 +402,7 @@ resource "aws_route_table" "staging" {
   vpc_id = local.vpc_id
 
   tags = {
-    Name = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "staging-rt"]))
+    Name = lower(join("-", [var.coid, var.location_short, var.protera_env, var.protera_type, "staging-rt"]))
   }
 }
 
@@ -471,7 +471,7 @@ resource "aws_network_acl" "staging" {
   vpc_id     = local.vpc_id
   subnet_ids = aws_subnet.staging[*].id
 
-  tags = { "Name" = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "staging-nacl"])) }
+  tags = { "Name" = lower(join("-", [local.coid, [var.coid, var.location_short, var.protera_env, var.protera_type, "staging-nacl"])) }
 }
 
 resource "aws_network_acl_rule" "staging_inbound" {
@@ -515,7 +515,7 @@ resource "aws_internet_gateway" "this" {
 
   vpc_id = local.vpc_id
 
-  tags = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "igw"]))
+  tags = lower(join("-", [var.coid, var.location_short, var.protera_env, var.protera_type, "igw"]))
 }
 
 ################################################################################
@@ -599,6 +599,6 @@ resource "aws_vpc_endpoint" "s3" {
     aws_route_table.private[*].id
   )
   tags                      = {
-    Name = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "s3-gw"]))
+    Name = lower(join("-", [var.coid, var.location_short, var.protera_env, var.protera_type, "s3-gw"]))
   }
 }

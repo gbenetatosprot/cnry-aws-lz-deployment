@@ -22,7 +22,7 @@ module "vpc1" {
 
 #Basic info
   region          = var.region
-  vpc_name        = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "vpc"]))
+  vpc_name        = lower(join("-", [local.coid, local.region_short, local.protera_env, local.protera_type, "vpc"]))
   coid            = local.coid
   protera_env     = local.protera_env
   protera_desc    = local.protera_desc
@@ -38,18 +38,18 @@ module "vpc1" {
   public_subnets  = ["10.160.10.128/26", "10.160.11.128/26"]
 
   private_subnet_names =  [
-  "${local.coid}-${local.region_short}-${local.type}-private-az1",
-  "${local.coid}-${local.region_short}-${local.type}-private-az2"
+  "${local.coid}-${local.region_short}-${local.protera_type}-private-az1",
+  "${local.coid}-${local.region_short}-${local.protera_type}-private-az2"
 ]
   public_subnet_names = [ 
-  "${local.coid}-${local.region_short}-${local.type}-public-az1", 
-  "${local.coid}-${local.region_short}-${local.type}-public-az2" 
+  "${local.coid}-${local.region_short}-${local.protera_type}-public-az1", 
+  "${local.coid}-${local.region_short}-${local.protera_type}-public-az2" 
 ]
 
 
 #Staging Subnet Configuration
   staging_subnets = ["10.160.10.192/27"]
-  staging_subnet_names = ["${local.coid}-${local.region_short}-${local.type}-ztaging-az1"]
+  staging_subnet_names = ["${local.coid}-${local.region_short}-${local.protera_type}-ztaging-az1"]
   create_staging_subnet_route_table = true
   create_staging_nat_gateway_route = false
   default_route_staging = true
