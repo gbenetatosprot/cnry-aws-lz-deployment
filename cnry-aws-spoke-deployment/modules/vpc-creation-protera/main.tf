@@ -80,7 +80,7 @@ resource "aws_subnet" "public" {
   tags = {
       Name = try(
         var.public_subnet_names[count.index],
-        format("${var.public_subnet_suffix}-%s", element(var.azs, count.index))
+        format("${var.public_subnet_suffix}-${var.protera_env}-%s", element(var.azs, count.index))
       )
     }
 }
@@ -242,7 +242,7 @@ resource "aws_subnet" "private" {
   tags = {
       Name = try(
         var.private_subnet_names[count.index],
-        format("${var.coid}-${var.private_subnet_suffix}-%s", element(var.azs, count.index))
+        format("${var.coid}-${var.private_subnet_suffix}-${var.protera_env}-%s", element(var.azs, count.index))
       )
     }
 }
@@ -387,7 +387,7 @@ resource "aws_subnet" "staging" {
  tags = {
       Name = try(
         var.staging_subnet_names[count.index],
-        format("${var.coid}-${var.staging_subnet_suffix}-%s", element(var.azs, count.index))
+        format("${var.coid}-${var.staging_subnet_suffix}-${var.protera_env}-%s", element(var.azs, count.index))
       )
     }
 }
