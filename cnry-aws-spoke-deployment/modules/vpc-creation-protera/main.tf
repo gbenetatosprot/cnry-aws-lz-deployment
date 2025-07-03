@@ -43,7 +43,7 @@ resource "aws_vpc_dhcp_options" "this" {
   netbios_node_type                 = var.dhcp_options_netbios_node_type
 
   tags = {
-  "Name" = lower(join("-", [var.coid, var.location_short, var.protera_env, var.protera_type, "dhcp"]))
+  "Name" = lower(join("-", [var.coid, var.region_short, var.protera_env, var.protera_type, "dhcp"]))
 }
 }
 
@@ -518,7 +518,9 @@ resource "aws_internet_gateway" "this" {
 
   vpc_id = local.vpc_id
 
-  tags = lower(join("-", [var.coid, var.region_short, var.protera_env, var.protera_type, "igw"]))
+  tags = {
+    Name = lower(join("-", [var.coid, var.region_short, var.protera_env, var.protera_type, "igw"]))
+  }
 }
 
 ################################################################################
