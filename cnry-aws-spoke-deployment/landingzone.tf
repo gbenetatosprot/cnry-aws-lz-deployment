@@ -109,7 +109,7 @@ module "vpc2" {
 
 
 #Staging Subnet Configuration
-  staging_subnets = ["10.160.11\2.192/27"]
+  staging_subnets = ["10.160.12.192/27"]
   staging_subnet_names = ["${local.coid}-${local.region_short}-${local.protera_type}-staging-az1"]
   create_staging_subnet_route_table = true
   create_staging_nat_gateway_route = false
