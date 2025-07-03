@@ -60,16 +60,16 @@ module "vpc1" {
   single_nat_gateway = true
 
 #IGW COnfiguration
-  create_igw = true
-  public_default_route = true
+  create_igw = false
+  public_default_route = false
 
 #VPC DNS Configuration - Important for Peerings and Private Links (Private Endpoints)
   enable_dns_hostnames = true
   enable_dns_support   = true
 
 #TGW for spoke accounts Configuration
-  create_accepter = false
-  attachment_creation = false
+  create_accepter = true
+  attachment_creation = true
 
 #   ram_share_arn = data.terraform_remote_state.ram_producer.outputs.shares_ram_shared_arn #Uncomment for TGW acceptance - In case of multiple TGW PROVIDE ARN manually
 
