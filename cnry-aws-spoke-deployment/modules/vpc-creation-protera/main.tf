@@ -472,9 +472,9 @@ resource "aws_network_acl" "staging" {
   vpc_id     = local.vpc_id
   subnet_ids = aws_subnet.staging[*].id
 
-  tags = { 
-    "Name" = lower(join("-", [local.coid, [var.coid, var.location_short, var.protera_env, var.protera_type, "staging-nacl"])) 
-    }
+ tags = { 
+  "Name" = lower(join("-", [ var.coid, var.location_short, var.protera_env, var.protera_type, "staging-nacl"]))
+}
 }
 
 resource "aws_network_acl_rule" "staging_inbound" {
