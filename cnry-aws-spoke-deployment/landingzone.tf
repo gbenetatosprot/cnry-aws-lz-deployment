@@ -56,8 +56,8 @@ module "vpc1" {
   create_staging_internet_gateway_route = true
 
 #NAT GW Configuration
-  enable_nat_gateway = true
-  single_nat_gateway = true
+  enable_nat_gateway = false
+  single_nat_gateway = false
 
 #IGW COnfiguration
   create_igw = false
@@ -71,8 +71,8 @@ module "vpc1" {
   create_accepter = true
   attachment_creation = true
 
-#   ram_share_arn = data.terraform_remote_state.ram_producer.outputs.shares_ram_shared_arn #Uncomment for TGW acceptance - In case of multiple TGW PROVIDE ARN manually
-
+# ram_share_arn = data.terraform_remote_state.ram_producer.outputs.shares_ram_shared_arn #Uncomment for TGW acceptance - In case of multiple TGW PROVIDE ARN manually
+ram_share_arn = "arn:aws:ram:us-east-1:706210432878:resource-share/7cef7c14-b81a-40e4-8983-75cc53443742"
 #S3 VPC Endpoints - Gateway
   s3_gw_endpoints = true
 }
