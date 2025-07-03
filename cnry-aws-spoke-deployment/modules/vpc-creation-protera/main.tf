@@ -566,7 +566,7 @@ resource "aws_nat_gateway" "this" {
   tags = merge(
     {
       "Name" = format(
-        "${var.name}-%s",
+        "${var.coid}-%s",
         element(var.azs, var.single_nat_gateway ? 0 : count.index),
       )
     },
