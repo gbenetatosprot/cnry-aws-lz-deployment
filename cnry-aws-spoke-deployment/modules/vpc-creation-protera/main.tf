@@ -97,11 +97,8 @@ resource "aws_route_table" "public" {
   vpc_id = local.vpc_id
 
   tags = {
-      "Name" = var.create_multiple_public_route_tables ? format(
-        "${var.coid}-${var.coid}-${var.public_subnet_suffix}-%s",
-        element(var.azs, count.index),
-      ) : "${var.coid}-${var.coid}-${var.public_subnet_suffix}"
-    }
+      "Name" = lower(join("-", [var.coid, var.region_short, var.protera_env, var.protera_type, "public-rt"]))
+  }
 }
 
 #Associate public rt to Public subnets
