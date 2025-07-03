@@ -83,7 +83,7 @@ module "vpc2" {
 
 #Basic info
   region          = var.region
-  vpc_name        = lower(join("-", [local.coid, local.region_short, local.protera_env, local.protera_type, "vpc"]))
+  vpc_name        = lower(join("-", [local.coid, local.region_short, "nprd", local.protera_type, "vpc"]))
   coid            = local.coid
   protera_env     = "nprd"
   protera_desc    = local.protera_desc
@@ -99,22 +99,22 @@ module "vpc2" {
   public_subnets  = ["10.160.12.128/26", "10.160.13.128/26"]
 
   private_subnet_names =  [
-  "${local.coid}-${local.region_short}-${local.protera_type}-private-az1",
-  "${local.coid}-${local.region_short}-${local.protera_type}-private-az2"
+  "${local.coid}-${local.region_short}-${local.protera_type}-${local.protera_env}-private-az1",
+  "${local.coid}-${local.region_short}-${local.protera_type}-${local.protera_env}-private-az2"
 ]
   public_subnet_names = [ 
-  "${local.coid}-${local.region_short}-${local.protera_type}-public-az1", 
-  "${local.coid}-${local.region_short}-${local.protera_type}-public-az2" 
+  "${local.coid}-${local.region_short}-${local.protera_type}-${local.protera_env}-public-az1", 
+  "${local.coid}-${local.region_short}-${local.protera_type}-${local.protera_env}-public-az2" 
 ]
 
 
 #Staging Subnet Configuration
-  staging_subnets = ["10.160.12.192/27"]
-  staging_subnet_names = ["${local.coid}-${local.region_short}-${local.protera_type}-staging-az1"]
-  create_staging_subnet_route_table = true
+  # staging_subnets = ["10.160.12.192/27"]
+  # staging_subnet_names = ["${local.coid}-${local.region_short}-${local.protera_type}-${local.protera_env}-staging-az1"]
+  create_staging_subnet_route_table = false
   create_staging_nat_gateway_route = false
-  default_route_staging = true
-  create_staging_internet_gateway_route = true
+  default_route_staging = false
+  create_staging_internet_gateway_route = false
 
 #NAT GW Configuration
   enable_nat_gateway = true
