@@ -77,67 +77,6 @@ module "vpc1" {
   s3_gw_endpoints = true
 }
 
-
-module "vpc2" {
-  source  = "./modules/vpc-creation-protera"
-
-#Basic info
-  region          = var.region
-  vpc_name        = lower(join("-", [local.coid, local.region_short, "nprd", local.protera_type, "vpc"]))
-  coid            = local.coid
-  protera_env     = "nprd"
-  protera_desc    = local.protera_desc
-  protera_status  = local.protera_status
-  region_short    = local.region_short
-  protera_type    = local.protera_type
-
-
-  #VPC IP schema
-  cidr            = "10.160.12.0/23"
-  azs             = ["${local.region}a", "${local.region}b"]
-  private_subnets = ["10.160.12.0/25", "10.160.13.0/25"]
-  public_subnets  = ["10.160.12.128/26", "10.160.13.128/26"]
-
-  private_subnet_names =  [
-  "${local.coid}-${local.region_short}-${local.protera_type}-${local.protera_env}-private-az1",
-  "${local.coid}-${local.region_short}-${local.protera_type}-${local.protera_env}-private-az2"
-]
-  public_subnet_names = [ 
-  "${local.coid}-${local.region_short}-${local.protera_type}-${local.protera_env}-public-az1", 
-  "${local.coid}-${local.region_short}-${local.protera_type}-${local.protera_env}-public-az2" 
-]
-
-
-#Staging Subnet Configuration
-  # staging_subnets = ["10.160.12.192/27"]
-  # staging_subnet_names = ["${local.coid}-${local.region_short}-${local.protera_type}-${local.protera_env}-staging-az1"]
-  create_staging_subnet_route_table = false
-  create_staging_nat_gateway_route = false
-  default_route_staging = false
-  create_staging_internet_gateway_route = false
-
-#NAT GW Configuration
-  enable_nat_gateway = true
-  single_nat_gateway = true
-
-#IGW COnfiguration
-  create_igw = true
-  public_default_route = true
-
-#VPC DNS Configuration - Important for Peerings and Private Links (Private Endpoints)
-  enable_dns_hostnames = true
-  enable_dns_support   = true
-
-#TGW for spoke accounts Configuration
-  create_accepter = false
-  attachment_creation = false
-
-#   ram_share_arn = data.terraform_remote_state.ram_producer.outputs.shares_ram_shared_arn #Uncomment for TGW acceptance - In case of multiple TGW PROVIDE ARN manually
-
-#S3 VPC Endpoints - Gateway
-  s3_gw_endpoints = true
-}
-
 ################################################################################
 # VPC Spoke - TGW Routing - Run Only when TGW Attachment is accepted and conf in HUB
 ################################################################################
