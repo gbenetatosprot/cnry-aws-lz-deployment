@@ -77,8 +77,7 @@ resource "aws_subnet" "public" {
   private_dns_hostname_type_on_launch            = var.public_subnet_private_dns_hostname_type_on_launch
   vpc_id                                         = local.vpc_id
 
-  tags = 
-    {
+  tags = {
       Name = try(
         var.public_subnet_names[count.index],
         format("${var.public_subnet_suffix}-%s", element(var.azs, count.index))
@@ -97,8 +96,7 @@ resource "aws_route_table" "public" {
 
   vpc_id = local.vpc_id
 
-  tags = 
-    {
+  tags = {
       "Name" = var.create_multiple_public_route_tables ? format(
         "${var.coid}-${var.coid}-${var.public_subnet_suffix}-%s",
         element(var.azs, count.index),
@@ -189,8 +187,7 @@ resource "aws_network_acl" "public" {
   vpc_id     = local.vpc_id
   subnet_ids = aws_subnet.public[*].id
 
-  tags = 
-    { "Name" = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "public-nacl"])) }
+  tags = { "Name" = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "public-nacl"])) }
 }
 
 resource "aws_network_acl_rule" "public_inbound" {
@@ -245,8 +242,7 @@ resource "aws_subnet" "private" {
   private_dns_hostname_type_on_launch            = var.private_subnet_private_dns_hostname_type_on_launch
   vpc_id                                         = local.vpc_id
 
-  tags = 
-    {
+  tags = {
       Name = try(
         var.private_subnet_names[count.index],
         format("${var.name}-${var.private_subnet_suffix}-%s", element(var.azs, count.index))
@@ -334,8 +330,7 @@ resource "aws_network_acl" "private" {
   vpc_id     = local.vpc_id
   subnet_ids = aws_subnet.private[*].id
 
-  tags = 
-    { "Name" = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "private-nacl"])) }
+  tags = { "Name" = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "private-nacl"])) }
 }
 
 resource "aws_network_acl_rule" "private_inbound" {
@@ -391,8 +386,7 @@ resource "aws_subnet" "staging" {
   private_dns_hostname_type_on_launch            = var.staging_subnet_private_dns_hostname_type_on_launch
   vpc_id                                         = local.vpc_id
 
- tags = 
-    {
+ tags = {
       Name = try(
         var.staging_subnet_names[count.index],
         format("${var.name}-${var.staging_subnet_suffix}-%s", element(var.azs, count.index))
@@ -477,8 +471,7 @@ resource "aws_network_acl" "staging" {
   vpc_id     = local.vpc_id
   subnet_ids = aws_subnet.staging[*].id
 
-  tags = 
-    { "Name" = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "staging-nacl"])) }
+  tags = { "Name" = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "staging-nacl"])) }
 }
 
 resource "aws_network_acl_rule" "staging_inbound" {
@@ -541,8 +534,7 @@ resource "aws_eip" "nat" {
 
   domain = "vpc"
 
-  tags = 
-    {
+  tags =  {
       "Name" = format(
         "${var.coid}-${var.region_short}-%s",
         element(var.azs, var.single_nat_gateway ? 0 : count.index),
