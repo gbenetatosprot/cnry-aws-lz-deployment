@@ -37,7 +37,7 @@ module "vpc1" {
   private_subnets = ["10.160.10.0/25", "10.160.11.0/25"]
   public_subnets  = ["10.160.10.128/26", "10.160.11.128/26"]
 
-  private_subnet_names = private_subnet_names = [
+  private_subnet_names =  [
   "${local.coid}-${local.region_short}-${local.type}-private-az1",
   "${local.coid}-${local.region_short}-${local.type}-private-az2"
 ]
