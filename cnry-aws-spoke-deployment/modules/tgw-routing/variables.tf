@@ -53,3 +53,38 @@ variable "default_staging_tgw" {
 variable "tgw_id" {
   type    = string
 }
+
+################################################################################
+# Protera Tag Variables
+################################################################################
+
+
+variable "coid" {
+  description = "COID for the customer"
+  type = string
+  default = ""
+}
+
+variable "protera_env" {
+  description = "Protera environment - prd/dev/qas/sbx"
+  type = string
+  default = ""
+}
+
+variable "protera_desc" {
+  description = "Protera dec - tag"
+  type = string
+  default = ""
+}
+
+variable "protera_status" {
+  description = "Protera status"
+  type = string
+  default = ""
+}
+
+variable "region_short" {
+  description = "Region Short identifier - East(e)/West(w)"
+  type = string
+  default = ""
+}

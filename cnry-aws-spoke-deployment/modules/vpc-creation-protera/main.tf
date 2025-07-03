@@ -8,27 +8,25 @@
 resource "aws_vpc" "this" {
   count = local.create_vpc ? 1 : 0
 
-  cidr_block          = var.cidr
+  cidr_block                           = var.cidr
 
   enable_dns_hostnames                 = var.enable_dns_hostnames
   enable_dns_support                   = var.enable_dns_support
 
-  tags = merge(
-    { "Name" = var.name },
-    var.tags,
-    var.vpc_tags,
-  )
+  tags = {
+  Name = var.vpc_name
+}
 }
 
 # Adds CIDR (secodanry) to VPC
 
 resource "aws_vpc_ipv4_cidr_block_association" "this" {
-  count = local.create_vpc && length(var.secondary_cidr_blocks) > 0 ? length(var.secondary_cidr_blocks) : 0
+  count                               = local.create_vpc && length(var.secondary_cidr_blocks) > 0 ? length(var.secondary_cidr_blocks) : 0
 
   # Do not turn this into `local.vpc_id`
-  vpc_id = aws_vpc.this[0].id
+  vpc_id                              = aws_vpc.this[0].id
 
-  cidr_block = element(var.secondary_cidr_blocks, count.index)
+  cidr_block                          = element(var.secondary_cidr_blocks, count.index)
 }
 
 ################################################################################
@@ -44,18 +42,16 @@ resource "aws_vpc_dhcp_options" "this" {
   netbios_name_servers              = var.dhcp_options_netbios_name_servers
   netbios_node_type                 = var.dhcp_options_netbios_node_type
 
-  tags = merge(
-    { "Name" = var.name },
-    var.tags,
-    var.dhcp_options_tags,
-  )
+  tags = {
+  "Name" = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "dhcp"]))
+}
 }
 
 resource "aws_vpc_dhcp_options_association" "this" {
-  count = local.create_vpc && var.enable_dhcp_options ? 1 : 0
+  count                             = local.create_vpc && var.enable_dhcp_options ? 1 : 0
 
-  vpc_id          = local.vpc_id
-  dhcp_options_id = aws_vpc_dhcp_options.this[0].id
+  vpc_id                            = local.vpc_id
+  dhcp_options_id                   = aws_vpc_dhcp_options.this[0].id
 }
 
 ################################################################################
@@ -65,7 +61,7 @@ resource "aws_vpc_dhcp_options_association" "this" {
 #Using this local syntax to avoid issue during TF plan, when there is no public subnets created
 
 locals {
-  create_public_subnets = local.create_vpc && local.len_public_subnets > 0
+  create_public_subnets             = local.create_vpc && local.len_public_subnets > 0
 }
 
 #Create Public subnets. For AZ BOTH, Amazon backend and user formats are acceptable. Amazon format (eg use1-az1) MUST be used in case we have Priavate Link requirements
@@ -81,17 +77,13 @@ resource "aws_subnet" "public" {
   private_dns_hostname_type_on_launch            = var.public_subnet_private_dns_hostname_type_on_launch
   vpc_id                                         = local.vpc_id
 
-  tags = merge(
+  tags = 
     {
       Name = try(
         var.public_subnet_names[count.index],
-        format("${var.name}-${var.public_subnet_suffix}-%s", element(var.azs, count.index))
+        format("${var.public_subnet_suffix}-%s", element(var.azs, count.index))
       )
-    },
-    var.tags,
-    var.public_subnet_tags,
-    lookup(var.public_subnet_tags_per_az, element(var.azs, count.index), {})
-  )
+    }
 }
 
 #Create Public Subnet routing tables - Local format is used to avoid issues when Public subnet are NOT created
@@ -105,16 +97,13 @@ resource "aws_route_table" "public" {
 
   vpc_id = local.vpc_id
 
-  tags = merge(
+  tags = 
     {
       "Name" = var.create_multiple_public_route_tables ? format(
-        "${var.name}-${var.public_subnet_suffix}-%s",
+        "${var.coid}-${var.coid}-${var.public_subnet_suffix}-%s",
         element(var.azs, count.index),
-      ) : "${var.name}-${var.public_subnet_suffix}"
-    },
-    var.tags,
-    var.public_route_table_tags,
-  )
+      ) : "${var.coid}-${var.coid}-${var.public_subnet_suffix}"
+    }
 }
 
 #Associate public rt to Public subnets
@@ -147,7 +136,7 @@ resource "aws_route" "public_internet_gateway" {
 
 #Creates a Public SG
 resource "aws_security_group" "public" {
-  name        = "Public-SG"
+  name        = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "public-sg"]))
   description = "Allow inbound RFC1918 and outbound all"
   vpc_id      = aws_vpc.this[0].id
 
@@ -184,7 +173,7 @@ resource "aws_security_group" "public" {
   }
 
   tags = {
-    Name = "Public-SG"
+    Name = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "public-sg"]))
   }
 }
 
@@ -200,11 +189,8 @@ resource "aws_network_acl" "public" {
   vpc_id     = local.vpc_id
   subnet_ids = aws_subnet.public[*].id
 
-  tags = merge(
-    { "Name" = "${var.name}-${var.public_subnet_suffix}" },
-    var.tags,
-    var.public_acl_tags,
-  )
+  tags = 
+    { "Name" = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "public-nacl"])) }
 }
 
 resource "aws_network_acl_rule" "public_inbound" {
@@ -259,17 +245,13 @@ resource "aws_subnet" "private" {
   private_dns_hostname_type_on_launch            = var.private_subnet_private_dns_hostname_type_on_launch
   vpc_id                                         = local.vpc_id
 
-  tags = merge(
+  tags = 
     {
       Name = try(
         var.private_subnet_names[count.index],
         format("${var.name}-${var.private_subnet_suffix}-%s", element(var.azs, count.index))
       )
-    },
-    var.tags,
-    var.private_subnet_tags,
-    lookup(var.private_subnet_tags_per_az, element(var.azs, count.index), {})
-  )
+    }
 }
 
 #Creates an empty Private subnet RT
@@ -279,7 +261,7 @@ resource "aws_route_table" "private" {
   vpc_id = local.vpc_id
 
   tags = {
-    Name = "Private-Subnet-Rt"
+    Name = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "private-rt"]))
   }
 }
 
@@ -295,7 +277,7 @@ resource "aws_route_table_association" "private" {
 #Creates an SG for Private Subnets
 
 resource "aws_security_group" "private" {
-  name        = "Private-SG"
+  name        = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "private-sg"]))
   description = "Allow inbound RFC1918 and outbound all"
   vpc_id      = aws_vpc.this[0].id
 
@@ -332,7 +314,7 @@ resource "aws_security_group" "private" {
   }
 
   tags = {
-    Name = "Private-SG"
+    Name = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "private-sg"]))
   }
 }
 
@@ -352,11 +334,8 @@ resource "aws_network_acl" "private" {
   vpc_id     = local.vpc_id
   subnet_ids = aws_subnet.private[*].id
 
-  tags = merge(
-    { "Name" = "${var.name}-${var.private_subnet_suffix}" },
-    var.tags,
-    var.private_acl_tags,
-  )
+  tags = 
+    { "Name" = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "private-nacl"])) }
 }
 
 resource "aws_network_acl_rule" "private_inbound" {
@@ -412,16 +391,13 @@ resource "aws_subnet" "staging" {
   private_dns_hostname_type_on_launch            = var.staging_subnet_private_dns_hostname_type_on_launch
   vpc_id                                         = local.vpc_id
 
-  tags = merge(
+ tags = 
     {
       Name = try(
         var.staging_subnet_names[count.index],
-        format("${var.name}-${var.staging_subnet_suffix}-%s", element(var.azs, count.index), )
+        format("${var.name}-${var.staging_subnet_suffix}-%s", element(var.azs, count.index))
       )
-    },
-    var.tags,
-    var.staging_subnet_tags,
-  )
+    }
 }
 
 #Create rt for staging subnet - Giving a separate RT helps to easily change between a public replication and a private replication
@@ -431,13 +407,9 @@ resource "aws_route_table" "staging" {
 
   vpc_id = local.vpc_id
 
-  tags = merge(
-    {
-      "Name" = "${var.name}-${var.staging_subnet_suffix}"
-    },
-    var.tags,
-    var.staging_route_table_tags,
-  )
+  tags = {
+    Name = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "staging-rt"]))
+  }
 }
 
 #Associate Staging rt to Staging subnets
@@ -505,11 +477,8 @@ resource "aws_network_acl" "staging" {
   vpc_id     = local.vpc_id
   subnet_ids = aws_subnet.staging[*].id
 
-  tags = merge(
-    { "Name" = "${var.name}-${var.staging_subnet_suffix}" },
-    var.tags,
-    var.staging_acl_tags,
-  )
+  tags = 
+    { "Name" = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "staging-nacl"])) }
 }
 
 resource "aws_network_acl_rule" "staging_inbound" {
@@ -553,11 +522,7 @@ resource "aws_internet_gateway" "this" {
 
   vpc_id = local.vpc_id
 
-  tags = merge(
-    { "Name" = var.name },
-    var.tags,
-    var.igw_tags,
-  )
+  tags = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "igw"]))
 }
 
 ################################################################################
@@ -576,16 +541,13 @@ resource "aws_eip" "nat" {
 
   domain = "vpc"
 
-  tags = merge(
+  tags = 
     {
       "Name" = format(
-        "${var.name}-%s",
+        "${var.coid}-${var.region_short}-%s",
         element(var.azs, var.single_nat_gateway ? 0 : count.index),
       )
-    },
-    var.tags,
-    var.nat_eip_tags,
-  )
+    }
 
   depends_on = [aws_internet_gateway.this]
 }
@@ -645,6 +607,6 @@ resource "aws_vpc_endpoint" "s3" {
     aws_route_table.private[*].id
   )
   tags                      = {
-    Name = "S3 VPC Endpoint"
+    Name = lower(join("-", [local.coid, local.location_short, local.protera_env, local.protera_type, "s3-gw"]))
   }
 }

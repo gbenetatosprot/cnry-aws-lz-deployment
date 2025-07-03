@@ -15,8 +15,8 @@ variable "create_vpc" {
   default     = true
 }
 
-variable "name" {
-  description = "Name to be used on all the resources as identifier"
+variable "vpc_name" {
+  description = "Name of the VPC"
   type        = string
   default     = ""
 }
@@ -760,4 +760,46 @@ variable "s3_gw_endpoints" {
   description = "Creation of s3 gateway endpoint"
   type        = bool
   default     = false
+}
+
+
+################################################################################
+# Protera Tag Variables
+################################################################################
+
+
+variable "coid" {
+  description = "COID for the customer"
+  type = string
+  default = ""
+}
+
+variable "protera_env" {
+  description = "Protera environment - prd/dev/qas/sbx"
+  type = string
+  default = ""
+}
+
+variable "protera_desc" {
+  description = "Protera dec - tag"
+  type = string
+  default = ""
+}
+
+variable "protera_status" {
+  description = "Protera status"
+  type = string
+  default = ""
+}
+
+variable "region_short" {
+  description = "Region Short identifier - East(e)/West(w)"
+  type = string
+  default = ""
+}
+
+variable "protera_type" {
+  description = "For naming - eg SAP, Shared etc"
+  type = string
+  default = ""
 }
