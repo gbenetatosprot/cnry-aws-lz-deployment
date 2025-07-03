@@ -49,7 +49,7 @@ module "vpc1" {
 
 #Staging Subnet Configuration
   staging_subnets = ["10.160.10.192/27"]
-  staging_subnet_names = ["${local.coid}-${local.region_short}-${local.protera_type}-ztaging-az1"]
+  staging_subnet_names = ["${local.coid}-${local.region_short}-${local.protera_type}-staging-az1"]
   create_staging_subnet_route_table = true
   create_staging_nat_gateway_route = false
   default_route_staging = true
