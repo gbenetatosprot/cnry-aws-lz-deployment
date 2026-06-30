@@ -3,22 +3,13 @@
 #----------------------------------------------------------------------------------------------------------------------
 
 
-data "aws_ami" "firewall" {
-  most_recent                               = true
-  owners                                    = ["aws-marketplace"]
-
-  filter {
-    name                                    = "name"
-    values                                  = ["PA-VM-AWS-11.1.6-h7-7064e142-2859-40a4-ab62-8b0996b842e9*"]
-  }
-}
 
 #----------------------------------------------------------------------------------------------------------------------
 # VM-Series - VM Creation - First Firewall
 #----------------------------------------------------------------------------------------------------------------------
 
 resource "aws_instance" "vm1" {
-  ami                                       = data.aws_ami.firewall.id
+  ami                                       = "ami-03fd5b3c48f8dfc03"
   instance_type                             = var.instance_type
   availability_zone                         = var.aws_availability_zone
   key_name                                  = "firewall"
@@ -52,7 +43,7 @@ resource "aws_instance" "vm1" {
 #----------------------------------------------------------------------------------------------------------------------
 
 resource "aws_instance" "vm2" {
-  ami                                       = data.aws_ami.firewall.id
+  ami                                       = "ami-03fd5b3c48f8dfc03"
   instance_type                             = var.instance_type
   availability_zone                         = var.aws_availability_zone
   key_name                                  = "firewall"
